@@ -1,6 +1,7 @@
 package repositories;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 import utils.HibernateSingleton;
 
 import javax.persistence.Query;
@@ -92,6 +93,7 @@ public class BasicCrudImpl<T> implements BasicCrud<T> {
         var session =sessionFactory.openSession();
         var transaction=session.beginTransaction();
         try {
+            NativeQuery q=session.createSQLQuery("truncate");
             String hql = String.format("delete from %s",tableName);
             Query query = session.createQuery(hql);
             returnQueryInt=query.executeUpdate();

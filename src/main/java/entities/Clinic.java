@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,7 +20,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Entity
-
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Clinic extends BaseEntity {
 
     private String name;

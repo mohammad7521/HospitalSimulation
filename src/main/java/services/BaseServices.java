@@ -72,5 +72,9 @@ public abstract class BaseServices <T extends BaseEntity,R extends BasicCrud<T>>
     }
 
 
+    public int hqlTruncate(String tableName){
+        return repo.hqlTruncate(tableName);
+    }
+
 
 }

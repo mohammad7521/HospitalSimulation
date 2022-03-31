@@ -23,4 +23,11 @@ public class Prescription extends BaseEntity {
 
     @OneToOne(mappedBy = "prescriptionVisit",cascade = CascadeType.ALL)
     private Visit visitPrescription;
+
+    @Override
+    public String toString() {
+        return "\nPrescription{" +
+                "\ndescription:" + description +
+                "\n}";
+    }
 }

@@ -97,8 +97,7 @@ public class StaffConsole {
             System.out.println("1-staff management: ");
             System.out.println("2-Clinic management: ");
             System.out.println("3-Doctor management: ");
-            System.out.println("4-Medicine management: ");
-            System.out.println("5-visit time management: ");
+            System.out.println("4-visit time management: ");
             System.out.println("0-exit: ");
 
             Scanner scanner = new Scanner(System.in);
@@ -115,11 +114,8 @@ public class StaffConsole {
                     case 3:
                         doctorManagementMenu(username);
                         break;
-//                    case 4:
-//                        lessonManagementMenu();
-//                        break;
 
-                    case 5:
+                    case 4:
                         visitManagement();
                         break;
 
@@ -447,4 +443,5 @@ public class StaffConsole {
             System.out.println("the user does not exist!");
         }
     }
+
 }

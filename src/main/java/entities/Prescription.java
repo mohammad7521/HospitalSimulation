@@ -20,9 +20,7 @@ public class Prescription extends BaseEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "medicinePrescription",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<Medicine> prescriptionMedicine;
 
-    @OneToOne
+    @OneToOne(mappedBy = "prescriptionVisit",cascade = CascadeType.ALL)
     private Visit visitPrescription;
 }

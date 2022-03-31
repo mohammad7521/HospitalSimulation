@@ -1,23 +1,9 @@
 package console;
 
-import entities.Doctor;
-import entities.Patient;
-import entities.Staff;
-import entities.Visit;
-import exceptions.DuplicateUser;
-import exceptions.NoSuchId;
-import exceptions.NoSuchUser;
-import repositories.ClinicRepo;
-import repositories.DoctorRepo;
-import repositories.PatientRepo;
-import repositories.VisitRepo;
-import services.ClinicServices;
-import services.DoctorServices;
-import services.PatientServices;
-import services.VisitServices;
-
-import javax.print.Doc;
-import java.sql.Statement;
+import entities.*;
+import exceptions.*;
+import repositories.*;
+import services.*;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +19,6 @@ public class PatientConsole {
     private static DoctorRepo doctorRepo = new DoctorRepo();
     private static DoctorServices doctorServices = new DoctorServices(doctorRepo);
     private static Scanner scanner = new Scanner(System.in);
-
 
     private static void selectVisitTime(List<Visit> visitList,Patient patient) {
 
@@ -59,8 +44,6 @@ public class PatientConsole {
             System.out.println("1-Register: ");
             System.out.println("2-Sign in: ");
             System.out.println("0-exit: ");
-
-            Scanner scanner = new Scanner(System.in);
 
             try {
                 int userEntry = scanner.nextInt();
@@ -105,7 +88,7 @@ public class PatientConsole {
             } catch (DuplicateUser e) {
                 System.out.println("username already exists!");
             } catch (NoSuchUser e){
-                System.out.println("please enter a correct valie!");
+                System.out.println("please enter a correct value!");
             }
         }
     }
@@ -117,7 +100,7 @@ public class PatientConsole {
         boolean flag = true;
         while (flag) {
             System.out.println("1-show info: ");
-            System.out.println("2-show medical info: ");
+            System.out.println("2-show medical history: ");
             System.out.println("3-browse clinics and doctors(book a visit): ");
             System.out.println("0-exit: ");
 
@@ -144,7 +127,7 @@ public class PatientConsole {
                         System.out.println("select you doctor from the list below: ");
                         List<Doctor> clinicDoctorList = clinicServices.clinicDoctorList(clinicId);
                         for (Doctor d : clinicDoctorList) {
-                            System.out.println(d);
+                            System.out.println(d.patientToString());
                         }
 
                         System.out.println("now select your doctor: ");
@@ -154,11 +137,15 @@ public class PatientConsole {
                         break;
 
                     case 0:
-                        patientManagementMenu(username);
+                        patientLogIn();
                         break;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("please enter a valid number ! ");
+            } catch (NoSuchUser e){
+                System.out.println("please enter a correct value!");
+            }catch (NoSuchId e){
+                System.out.println("pleas enter a correct Id! ");
             }
         }
     }

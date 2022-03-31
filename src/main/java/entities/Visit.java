@@ -40,7 +40,7 @@ public class Visit extends BaseEntity {
                 "id:"+getId()+
                 "\ndayOfWeek=" + dayOfWeek.toString() +
                 "\nvisitTime=" + visitTime.toString() +
-//                "\ndoctorVisit=" + doctorVisit +
+                "\ndoctorVisit=" + doctorVisit.getFirstname() +"expert: "+doctorVisit.getExpert()+
                 "\nprescription=" + prescriptionVisit +
                 "}\n";
     }

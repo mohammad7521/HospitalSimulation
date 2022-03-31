@@ -31,7 +31,7 @@ public class Clinic extends BaseEntity {
 
     public String toStringWithDoctorList() {
         return "\nClinic:" +
-                "id"+ getId()+
+                "\nid:"+ getId()+
                 "\nname: " + name +
                 "\naddress: " + address +
                 "\ndoctors"+doctorList+

@@ -27,7 +27,6 @@ public class HibernateSingleton {
             INSTANCE = new MetadataSources(registry)
                     .addAnnotatedClass(Clinic.class)
                     .addAnnotatedClass(Doctor.class)
-                    .addAnnotatedClass(Medicine.class)
                     .addAnnotatedClass(Patient.class)
                     .addAnnotatedClass(Prescription.class)
                     .addAnnotatedClass(Visit.class)

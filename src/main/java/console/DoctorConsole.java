@@ -1,17 +1,11 @@
 package console;
-
-import entities.Doctor;
-import entities.Visit;
-import exceptions.DuplicateUser;
-import exceptions.NoSuchId;
-import repositories.DoctorRepo;
-import repositories.VisitRepo;
-import services.DoctorServices;
-import services.VisitServices;
+import entities.*;
+import exceptions.*;
+import repositories.*;
+import services.*;
 
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class DoctorConsole {
@@ -20,6 +14,8 @@ public class DoctorConsole {
     private static DoctorServices doctorServices=new DoctorServices(doctorRepo);
     private static VisitRepo visitRepo=new VisitRepo();
     private static VisitServices visitServices=new VisitServices(visitRepo);
+    private static PrescriptionRepo prescriptionRepo=new PrescriptionRepo();
+    private static PrescriptionServices prescriptionServices=new PrescriptionServices(prescriptionRepo);
     private static Scanner scanner=new Scanner(System.in);
 
 
@@ -79,6 +75,8 @@ public class DoctorConsole {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("please enter a valid number ! ");
+            } catch (NoSuchUser e){
+                System.out.println("please enter a valid prescription Id! ");
             }
         }
     }
@@ -91,8 +89,13 @@ public class DoctorConsole {
         }
         System.out.println("select the visit that you want to write prescription for:");
         int visitId=scanner.nextInt();
-        Visit v=visitServices.showInfo(visitId,Visit.class);
+        Visit visit=visitServices.showInfo(visitId,Visit.class);
         System.out.println("write your prescription:");
-
+        String prescriptionText=scanner.next();
+        Prescription prescription=new Prescription();
+        prescription.setDescription(prescriptionText);
+        prescriptionServices.add(prescription);
+        visit.setPrescriptionVisit(prescription);
+        visitServices.update(visit,visitId,Visit.class);
     }
 }

@@ -1,15 +1,8 @@
 package console;
 
-import entities.Clinic;
-import entities.Doctor;
-import repositories.ClinicRepo;
-import repositories.DoctorRepo;
-import repositories.StaffRepo;
-import repositories.VisitRepo;
-import services.ClinicServices;
-import services.DoctorServices;
-import services.StaffServices;
-import services.VisitServices;
+import entities.*;
+import repositories.*;
+import services.*;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -17,14 +10,15 @@ import java.util.Scanner;
 
 public class MainConsole {
 
-    private static StaffRepo staffRepo = new StaffRepo();
-    private static ClinicRepo clinicRepo=new ClinicRepo();
-    private static StaffServices staffServices = new StaffServices(staffRepo);
-    private static ClinicServices clinicServices=new ClinicServices(clinicRepo);
-    private static DoctorRepo doctorRepo=new DoctorRepo();
-    private static DoctorServices doctorServices=new DoctorServices(doctorRepo);
-    private static VisitRepo visitRepo=new VisitRepo();
-    private static VisitServices visitServices=new VisitServices(visitRepo);
+    protected static StaffRepo staffRepo = new StaffRepo();
+    protected static ClinicRepo clinicRepo=new ClinicRepo();
+    protected static StaffServices staffServices = new StaffServices(staffRepo);
+    protected static ClinicServices clinicServices=new ClinicServices(clinicRepo);
+    protected static DoctorRepo doctorRepo=new DoctorRepo();
+    protected static DoctorServices doctorServices=new DoctorServices(doctorRepo);
+    protected static VisitRepo visitRepo=new VisitRepo();
+    protected static VisitServices visitServices=new VisitServices(visitRepo);
+    protected static Scanner scanner=new Scanner(System.in);
 
     public static void mainMenu()  {
 
@@ -32,8 +26,6 @@ public class MainConsole {
             System.out.println("1-staff: ");
             System.out.println("2-Patient: ");
             System.out.println("3-Doctor: ");
-
-            Scanner scanner = new Scanner(System.in);
 
             try {
                 int userSelect = scanner.nextInt();
@@ -44,12 +36,17 @@ public class MainConsole {
                     case 2:
                         PatientConsole.patientLogIn();
                         break;
+                    case 3:
+                        DoctorConsole.doctorLogIn();
+                        break;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("please enter a number!");
             }
         }
     }
+
+
 
     public static void showClinics(){
         List<Clinic> clinics=clinicServices.showAll(Clinic.class);
@@ -58,6 +55,8 @@ public class MainConsole {
             System.out.println(c.toString());
         }
     }
+
+
 
     public static void showDoctors(){
         List<Doctor> doctorList=doctorServices.showAll(Doctor.class);

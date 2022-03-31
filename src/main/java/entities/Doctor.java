@@ -41,4 +41,16 @@ public class Doctor extends User {
                 "\nclinic: " +doctorClinic +
                 "\n}";
     }
+
+
+
+    public String patientToString() {
+        return "\nDoctor:{" +
+                "\nid:"+getId()+
+                "\nfirstname:" + firstname +
+                "\nlastname:" + lastname +
+                "\nclinic: " +doctorClinic +
+                "\nexpert: " +expert+
+                "\n}";
+    }
 }

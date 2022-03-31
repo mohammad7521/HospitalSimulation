@@ -1,19 +1,11 @@
 package console;
 
 import entities.*;
-import exceptions.DuplicateUser;
-import exceptions.NoSuchUser;
-import exceptions.NoSuchId;
-import repositories.ClinicRepo;
-import repositories.DoctorRepo;
-import repositories.StaffRepo;
-import repositories.VisitRepo;
-import services.ClinicServices;
-import services.DoctorServices;
-import services.StaffServices;
-import services.VisitServices;
+import exceptions.*;
+import repositories.*;
+import services.*;
 
-import javax.print.Doc;
+import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -37,11 +29,10 @@ public class StaffConsole {
         staffServices.adminSetter();
 
         while (true) {
+            System.out.println("(admin-admin) for default access:");
             System.out.println("1-Register: ");
             System.out.println("2-Sign in: ");
             System.out.println("0-exit: ");
-
-            Scanner scanner = new Scanner(System.in);
 
             try {
                 int userEntry = scanner.nextInt();
@@ -109,14 +100,14 @@ public class StaffConsole {
                         staffManagement();
                         break;
                     case 2:
-                        clinicManagementMenu();
+                        clinicManagementMenu(username);
                         break;
                     case 3:
                         doctorManagementMenu(username);
                         break;
 
                     case 4:
-                        visitManagement();
+                        visitManagement(username);
                         break;
 
                     case 0:
@@ -206,13 +197,13 @@ public class StaffConsole {
 
 
     //clinic management
-    public static void clinicManagementMenu() {
+    public static void clinicManagementMenu(String username) {
 
         System.out.println("1-add new clinic:");
         System.out.println("2-remove clinic:");
         System.out.println("3-modify clinic: ");
         System.out.println("4-show all clinics:");
-        System.out.println("0-exit");
+        System.out.println("0-exit:");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -262,7 +253,7 @@ public class StaffConsole {
                         System.out.println(c);
                     }
                 case 0:
-                    staffLogIn();
+                    staffManagementMenu(username);
                     break;
             }
         } catch (NoSuchId e) {
@@ -277,13 +268,13 @@ public class StaffConsole {
     //doctor management
     public static void doctorManagementMenu(String username) {
 
-        System.out.println("1-add new doctor");
-        System.out.println("2-remove doctor");
-        System.out.println("3-modify doctor");
+        System.out.println("1-add new doctor:");
+        System.out.println("2-remove doctor:");
+        System.out.println("3-modify doctor:");
         System.out.println("4-assign to clinic:");
         System.out.println("5-set visit hours:");
         System.out.println("6-show all doctors:");
-        System.out.println("0-exit");
+        System.out.println("0-exit:");
 
         Scanner scanner = new Scanner(System.in);
 
@@ -400,47 +391,51 @@ public class StaffConsole {
             System.out.println("id does not exist!");
         } catch (NoSuchUser e) {
             System.out.println("the user does not exist!");
+        } catch (DateTimeException e){
+            System.out.println("please enter as the given format");
         }
     }
 
 
 
 
-    public static void visitManagement(){
+    public static void visitManagement(String username) {
 
 
         System.out.println("1-show all visit times:");
         System.out.println("2-show visit times of a specific doctor:");
         System.out.println("0-exit");
 
-        try {
-            switch (scanner.nextInt()) {
+        while (true) {
+            try {
+                switch (scanner.nextInt()) {
 
-                case 1:
-                    List<Visit> allVisitTimes=visitServices.showAll(Visit.class);
-                    for (Visit v:allVisitTimes){
-                        System.out.println(v);
-                    }
-                    break;
+                    case 1:
+                        List<Visit> allVisitTimes = visitServices.showAll(Visit.class);
+                        for (Visit v : allVisitTimes) {
+                            System.out.println(v);
+                        }
+                        break;
 
-                case 2:
-                    MainConsole.showDoctors();
-                    System.out.println("enter doctor Id:");
-                    int doctorId=scanner.nextInt();
-                    List<Visit> allDoctorVisit=visitServices.allDoctorVisit(doctorId);
-                    for (Visit v:allDoctorVisit){
-                        System.out.println(v);
-                    }
-                    break;
-                case 0:
-                    break;
+                    case 2:
+                        MainConsole.showDoctors();
+                        System.out.println("enter doctor Id:");
+                        int doctorId = scanner.nextInt();
+                        List<Visit> allDoctorVisit = visitServices.allDoctorVisit(doctorId);
+                        for (Visit v : allDoctorVisit) {
+                            System.out.println(v);
+                        }
+                        break;
+                    case 0:
+                        staffManagementMenu(username);
+                }
+            } catch (DuplicateUser e) {
+                System.out.println("username already exists!");
+            } catch (NoSuchId e) {
+                System.out.println("id does not exist!");
+            } catch (NoSuchUser e) {
+                System.out.println("the user does not exist!");
             }
-        } catch (DuplicateUser e) {
-            System.out.println("username already exists!");
-        } catch (NoSuchId e) {
-            System.out.println("id does not exist!");
-        } catch (NoSuchUser e) {
-            System.out.println("the user does not exist!");
         }
     }
 
